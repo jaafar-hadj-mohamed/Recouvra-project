@@ -6,6 +6,12 @@ import swaggerUi from 'swagger-ui-express'
 import dotenv from 'dotenv'
 dotenv.config()
 
+// Basic environment validation
+if (!process.env.JWT_SECRET) {
+  console.error('FATAL: Missing JWT_SECRET in environment. Please define it in .env or .env.example.')
+  process.exit(1)
+}
+
 import { specs } from './config/swagger.js'
 import authRouter from './routes/authRoutes.js'
 import userRouter from './routes/userRoutes.js'

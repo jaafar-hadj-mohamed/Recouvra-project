@@ -28,6 +28,16 @@ export const specs = {
         },
         required: ['id', 'name', 'email', 'role']
       },
+      UserCreate: {
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          email: { type: 'string' },
+          password: { type: 'string', writeOnly: true },
+          role: { type: 'string', enum: ['agent', 'manager', 'admin'] }
+        },
+        required: ['name', 'email', 'password']
+      },
       Client: {
         type: 'object',
         properties: {
@@ -72,9 +82,11 @@ export const specs = {
       }
     }
   },
+  security: [{ BearerAuth: [] }],
   paths: {
     '/api/auth/login': {
       post: {
+        security: [],
         tags: ['Auth'],
         summary: 'Login user',
         requestBody: {
@@ -115,7 +127,7 @@ export const specs = {
       post: {
         tags: ['Users'],
         summary: 'Create user',
-        requestBody: { required: true, content: { 'application/json': { schema: { $ref: '#/components/schemas/User' } } } },
+        requestBody: { required: true, content: { 'application/json': { schema: { $ref: '#/components/schemas/UserCreate' } } } },
         responses: { '201': { description: 'Created' } }
       },
       get: {
