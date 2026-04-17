@@ -1,0 +1,49 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>Utilisateurs</h1>
+      <p>Gestion des comptes utilisateurs</p>
+    </div>
+    @if (auth.currentUser()?.role === 'admin') {
+      <a routerLink="/users/new" class="btn btn-primary">+ Nouvel utilisateur</a>
+    }
+  </div>
+
+  @if (error()) {
+    <div class="alert-error">{{ error() }}</div>
+  }
+
+  <div class="card">
+    @if (loading()) {
+      <div class="loading">Chargement...</div>
+    } @else if (users().length === 0) {
+      <div class="empty">Aucun utilisateur trouvé.</div>
+    } @else {
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Rôle</th>
+            <th>Créé le</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of users(); track user._id) {
+            <tr>
+              <td>
+                <strong>{{ user.name }}</strong>
+                @if (user.email === auth.currentUser()?.email) {
+                  <span class="badge badge-green" style="margin-left: 8px; font-size: 10px;">Vous</span>
+                }
+              </td>
+              <td>{{ user.email }}</td>
+              <td><span class="badge {{ roleClass(user.role) }}">{{ user.role }}</span></td>
+              <td>{{ user.createdAt | date:'dd/MM/yyyy' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>

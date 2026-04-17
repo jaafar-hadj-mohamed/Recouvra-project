@@ -1,0 +1,44 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>Actions de recouvrement</h1>
+      <p>Historique de toutes les actions effectuées</p>
+    </div>
+    <a routerLink="/actions/new" class="btn btn-primary">+ Nouvelle action</a>
+  </div>
+
+  @if (error()) {
+    <div class="alert-error">{{ error() }}</div>
+  }
+
+  <div class="card">
+    @if (loading()) {
+      <div class="loading">Chargement...</div>
+    } @else if (actions().length === 0) {
+      <div class="empty">Aucune action enregistrée.</div>
+    } @else {
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Type</th>
+            <th>Note</th>
+            <th>Agent</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (action of actions(); track action._id) {
+            <tr>
+              <td><strong>{{ getClientName(action.client) }}</strong></td>
+              <td><span class="badge {{ typeClass(action.type) }}">{{ typeLabel(action.type) }}</span></td>
+              <td>{{ action.note || '—' }}</td>
+              <td>{{ getAgentName(action.agent) }}</td>
+              <td>{{ action.date | date:'dd/MM/yyyy HH:mm' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>

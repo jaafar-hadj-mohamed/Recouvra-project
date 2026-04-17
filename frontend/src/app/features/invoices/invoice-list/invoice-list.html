@@ -1,0 +1,61 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>Factures</h1>
+      <p>{{ total() }} facture(s) au total</p>
+    </div>
+    <a routerLink="/invoices/new" class="btn btn-primary">+ Nouvelle facture</a>
+  </div>
+
+  <div class="filters">
+    <select [(ngModel)]="statusFilter" (change)="onFilterChange()" name="status">
+      <option value="">Tous les statuts</option>
+      <option value="unpaid">Impayées</option>
+      <option value="partial">Partielles</option>
+      <option value="paid">Payées</option>
+    </select>
+  </div>
+
+  @if (error()) {
+    <div class="alert-error">{{ error() }}</div>
+  }
+
+  <div class="card">
+    @if (loading()) {
+      <div class="loading">Chargement...</div>
+    } @else if (invoices().length === 0) {
+      <div class="empty">Aucune facture trouvée.</div>
+    } @else {
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Montant</th>
+            <th>Échéance</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (invoice of invoices(); track invoice._id) {
+            <tr>
+              <td><strong>{{ getClientName(invoice.client) }}</strong></td>
+              <td>{{ invoice.amount | currency:'EUR':'symbol':'1.2-2' }}</td>
+              <td>{{ invoice.dueDate | date:'dd/MM/yyyy' }}</td>
+              <td><span class="badge {{ statusClass(invoice.status) }}">{{ statusLabel(invoice.status) }}</span></td>
+              <td class="actions-cell">
+                <a routerLink="/payments/new" [queryParams]="{ invoiceId: invoice._id }" class="btn btn-sm btn-outline">Paiement</a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <div class="pagination">
+        <button (click)="prevPage()" [disabled]="page() === 1" class="btn btn-sm btn-outline">&#8249; Précédent</button>
+        <span>Page {{ page() }} / {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="page() === totalPages" class="btn btn-sm btn-outline">Suivant &#8250;</button>
+      </div>
+    }
+  </div>
+</div>

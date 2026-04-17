@@ -1,0 +1,56 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>Clients</h1>
+      <p>{{ total() }} client(s) au total</p>
+    </div>
+    <a routerLink="/clients/new" class="btn btn-primary">+ Nouveau client</a>
+  </div>
+
+  @if (successMsg()) {
+    <div class="alert-success">{{ successMsg() }}</div>
+  }
+  @if (error()) {
+    <div class="alert-error">{{ error() }}</div>
+  }
+
+  <div class="card">
+    @if (loading()) {
+      <div class="loading">Chargement...</div>
+    } @else if (clients().length === 0) {
+      <div class="empty">Aucun client trouvé.</div>
+    } @else {
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Téléphone</th>
+            <th>Adresse</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (client of clients(); track client._id) {
+            <tr>
+              <td><strong>{{ client.name }}</strong></td>
+              <td>{{ client.email || '—' }}</td>
+              <td>{{ client.phone || '—' }}</td>
+              <td>{{ client.address || '—' }}</td>
+              <td class="actions-cell">
+                <a [routerLink]="['/clients', client._id, 'edit']" class="btn btn-sm btn-outline">Modifier</a>
+                <button (click)="delete(client._id)" class="btn btn-sm btn-danger">Supprimer</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <div class="pagination">
+        <button (click)="prevPage()" [disabled]="page() === 1" class="btn btn-sm btn-outline">&#8249; Précédent</button>
+        <span>Page {{ page() }} / {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="page() === totalPages" class="btn btn-sm btn-outline">Suivant &#8250;</button>
+      </div>
+    }
+  </div>
+</div>

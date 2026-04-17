@@ -1,0 +1,52 @@
+<div class="app-container">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span class="logo-icon">&#9670;</span>
+        <span class="logo-text">Recouvra+</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">&#9632;</span>
+        <span>Tableau de bord</span>
+      </a>
+      <a routerLink="/clients" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">&#9632;</span>
+        <span>Clients</span>
+      </a>
+      <a routerLink="/invoices" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">&#9632;</span>
+        <span>Factures</span>
+      </a>
+      <a routerLink="/payments" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">&#9632;</span>
+        <span>Paiements</span>
+      </a>
+      <a routerLink="/actions" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">&#9632;</span>
+        <span>Actions</span>
+      </a>
+      <a routerLink="/users" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">&#9632;</span>
+        <span>Utilisateurs</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar">{{ auth.currentUser()?.name?.charAt(0) | uppercase }}</div>
+        <div class="user-details">
+          <span class="user-name">{{ auth.currentUser()?.name }}</span>
+          <span class="user-role">{{ auth.currentUser()?.role }}</span>
+        </div>
+      </div>
+      <button class="logout-btn" (click)="logout()">&#8592; Déconnexion</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <router-outlet />
+  </main>
+</div>

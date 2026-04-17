@@ -1,0 +1,13 @@
+.filters {
+  margin-bottom: 16px;
+}
+
+.filters select {
+  padding: 10px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #374151;
+  background: #fff;
+  cursor: pointer;
+}

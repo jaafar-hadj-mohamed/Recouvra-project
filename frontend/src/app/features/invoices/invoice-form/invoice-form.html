@@ -1,0 +1,53 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>Nouvelle facture</h1>
+      <p>Créez une nouvelle facture pour un client</p>
+    </div>
+  </div>
+
+  <div class="card card-form">
+    @if (error()) {
+      <div class="alert-error">{{ error() }}</div>
+    }
+
+    <form (ngSubmit)="onSubmit()" class="form">
+      <div class="form-group">
+        <label>Client *</label>
+        <select [(ngModel)]="form.client" name="client">
+          <option value="">Sélectionnez un client</option>
+          @for (client of clients(); track client._id) {
+            <option [value]="client._id">{{ client.name }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Montant (€) *</label>
+          <input type="number" [(ngModel)]="form.amount" name="amount" placeholder="0.00" min="0" step="0.01" />
+        </div>
+        <div class="form-group">
+          <label>Date d'échéance *</label>
+          <input type="date" [(ngModel)]="form.dueDate" name="dueDate" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Statut</label>
+        <select [(ngModel)]="form.status" name="status">
+          <option value="unpaid">Impayée</option>
+          <option value="partial">Partielle</option>
+          <option value="paid">Payée</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <a routerLink="/invoices" class="btn btn-outline">Annuler</a>
+        <button type="submit" class="btn btn-primary" [disabled]="loading()">
+          {{ loading() ? 'Création...' : 'Créer la facture' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

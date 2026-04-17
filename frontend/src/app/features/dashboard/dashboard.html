@@ -1,0 +1,64 @@
+<div class="page">
+  <div class="page-header">
+    <h1>Tableau de bord</h1>
+    <p>Vue d'ensemble de votre activité de recouvrement</p>
+  </div>
+
+  @if (loading()) {
+    <div class="loading">Chargement...</div>
+  } @else if (error()) {
+    <div class="alert-error">{{ error() }}</div>
+  } @else if (stats()) {
+    <div class="stats-grid">
+      <div class="stat-card stat-blue">
+        <div class="stat-icon">&#128196;</div>
+        <div class="stat-info">
+          <span class="stat-label">Total Factures</span>
+          <span class="stat-value">{{ stats()!.totalInvoices }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-red">
+        <div class="stat-icon">&#128184;</div>
+        <div class="stat-info">
+          <span class="stat-label">Montant Impayé</span>
+          <span class="stat-value">{{ stats()!.totalUnpaidAmount | currency:'EUR':'symbol':'1.0-0' }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-green">
+        <div class="stat-icon">&#9989;</div>
+        <div class="stat-info">
+          <span class="stat-label">Montant Recouvré</span>
+          <span class="stat-value">{{ stats()!.totalCollectedAmount | currency:'EUR':'symbol':'1.0-0' }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-purple">
+        <div class="stat-icon">&#128100;</div>
+        <div class="stat-info">
+          <span class="stat-label">Total Clients</span>
+          <span class="stat-value">{{ stats()!.totalClients }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="quick-links">
+      <h2>Accès rapide</h2>
+      <div class="links-grid">
+        <a routerLink="/clients/new" class="quick-link">
+          <span>+ Nouveau client</span>
+        </a>
+        <a routerLink="/invoices/new" class="quick-link">
+          <span>+ Nouvelle facture</span>
+        </a>
+        <a routerLink="/payments/new" class="quick-link">
+          <span>+ Enregistrer un paiement</span>
+        </a>
+        <a routerLink="/actions/new" class="quick-link">
+          <span>+ Nouvelle action</span>
+        </a>
+      </div>
+    </div>
+  }
+</div>
